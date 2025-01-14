@@ -1,5 +1,5 @@
 import unittest
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, ParentNode, LeafNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_values(self):
@@ -25,6 +25,50 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(
             "HTMLNode(h3, This is a header, children: None, {'color': 'red'})",
             repr(node)
+        )
+
+class TestParentNode(unittest.TestCase):
+    def test_to_html(self):
+        node = ParentNode(
+            "p",
+            [
+                LeafNode("b", "Bold text"),
+                LeafNode(None, "Normal text"),
+                LeafNode("i", "italic text"),
+                LeafNode(None, "Normal text"),
+            ],
+        )
+        self.assertEqual(
+            "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>",
+            node.to_html()
+        )
+
+    def test_to_html_no_tag(self):
+        node = ParentNode(None, LeafNode("b", "Bold text"))
+        with self.assertRaises(ValueError):
+            node.to_html()
+
+    def test_to_html_no_children(self):
+        node = ParentNode("p", None)
+        with self.assertRaises(ValueError):
+            node.to_html()
+
+    def test_to_html_recursive(self):
+        node = ParentNode(
+            "table",
+            [
+                ParentNode(
+                    "tr",
+                    [
+                        LeafNode("td", "Cell one"),
+                        LeafNode("td", "Cell two")
+                    ]
+                )
+            ]
+        )
+        self.assertEqual(
+            '<table><tr><td>Cell one</td><td>Cell two</td></tr></table>',
+            node.to_html()
         )
 
 class TestLeafNode(unittest.TestCase):
