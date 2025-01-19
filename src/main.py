@@ -1,15 +1,13 @@
 from textnode import TextNode, TextType
-from markdown import split_nodes_link, extract_markdown_links
+from inline_markdown import split_nodes_link, extract_markdown_links
+from nodeconversion import text_to_text_node
 
 print("hello world")
 
 def main():
     dummy = TextNode("This is some text", TextType.BOLD, "https://boot.dev")
     print(dummy)
-    node = TextNode(
-        "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
-        TextType.NORMAL,
-    )
-    new_nodes = split_nodes_link([node])
-    print(new_nodes)
+    text = "This is some **failed**, not wait, *failed markdown*"
+    tester = text_to_text_node(text)
+    print(tester)
 main()

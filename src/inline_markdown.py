@@ -9,6 +9,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             new_nodes.append(old_node)
             continue
         split_strings = old_node.text.split(delimiter)
+        if len(split_strings) % 2 == 0:
+            raise ValueError("Invalid markdown: inline styling not formatted correctly!")
         for i in range(len(split_strings)):
             if not split_strings[i]:
                 continue
@@ -62,15 +64,4 @@ def split_nodes_link(old_nodes):
             remaining_text = sections[1]
         if sections[1]:
             new_nodes.append(TextNode(sections[1], TextType.NORMAL))
-#        for i in range(num_links):
-#            sections = remaining_text.split(f"[{md_links[i][0]}]({md_links[i][1]})", 1)
-#            if sections[0]:
-#                new_nodes.append(TextNode(sections[0], TextType.NORMAL))
-#            new_nodes.append(TextNode(md_links[i][0], TextType.LINK, md_links[i][1]))
-#            if not sections[1]:
-#                continue
-#            if i == num_links - 1:
-#                new_nodes.append(TextNode(sections[1], TextType.NORMAL))
-#            else:
-#                remaining_text = sections[1]
     return new_nodes
