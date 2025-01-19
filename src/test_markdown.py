@@ -2,7 +2,9 @@ import unittest
 from markdown import (
         split_nodes_delimiter,
         extract_markdown_images,
-        extract_markdown_links
+        extract_markdown_links,
+        split_nodes_image,
+        split_nodes_link
 )
 from textnode import TextType, TextNode
 
@@ -91,3 +93,71 @@ class TestMarkdownLinksAndImages(unittest.TestCase):
             markdown_images
         )
 
+class TestSplitNodesImagesAndLinks(unittest.TestCase):
+    def test_split_nodes_image(self):
+        node = TextNode(
+            "![screenshot of webi](https://webinstall.dev/dist/webinstall-twitter-card-520px.png) is the best way to install stuff!",
+            TextType.NORMAL,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertEqual(
+            [
+                TextNode(
+                    "screenshot of webi",
+                    TextType.IMAGE,
+                    "https://webinstall.dev/dist/webinstall-twitter-card-520px.png"
+                ),
+                TextNode(" is the best way to install stuff!", TextType.NORMAL)
+            ],
+            new_nodes
+        )
+
+    def test_split_nodes_image_only(self):
+        node = TextNode(
+            "![Tasty, tasty meat](https://baconmockup.com/200/200/)",
+            TextType.NORMAL
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertEqual(
+            [
+                TextNode(
+                    "Tasty, tasty meat",
+                    TextType.IMAGE,
+                    "https://baconmockup.com/200/200/"
+                )
+            ],
+            new_nodes
+        )
+
+    def test_split_nodes_link(self):
+        node = TextNode(
+            "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
+            TextType.NORMAL,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertEqual(
+            [
+                TextNode("This is text with a link ", TextType.NORMAL),
+                TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
+                TextNode(" and ", TextType.NORMAL),
+                TextNode(
+                    "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
+                ),
+            ],
+            new_nodes
+        )
+
+    def test_split_nodes_link_adjacent(self):
+        node = TextNode(
+                "[Google](https://www.google.com)[&udm=14](https://udm14.com) is the best way to search.",
+                TextType.NORMAL,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertEqual(
+            [
+                TextNode("Google", TextType.LINK, "https://www.google.com"),
+                TextNode("&udm=14", TextType.LINK, "https://udm14.com"),
+                TextNode(" is the best way to search.", TextType.NORMAL)
+            ],
+            new_nodes
+        )
