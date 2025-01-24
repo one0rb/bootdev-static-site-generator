@@ -1,6 +1,12 @@
 import re
 from textnode import TextType, TextNode
 
+def extract_markdown_images(text):
+    return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
+def extract_markdown_links(text):
+    return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     split_strings = []
     new_nodes = []
@@ -19,12 +25,6 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
             else:
                 new_nodes.append(TextNode(split_strings[i], text_type))
     return new_nodes
-
-def extract_markdown_images(text):
-    return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
-
-def extract_markdown_links(text):
-    return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def split_nodes_image(old_nodes):
     new_nodes = []
@@ -65,3 +65,12 @@ def split_nodes_link(old_nodes):
         if sections[1]:
             new_nodes.append(TextNode(sections[1], TextType.NORMAL))
     return new_nodes
+
+def text_to_text_node(text):
+    text_nodes = [TextNode(text, TextType.NORMAL)]
+    text_nodes = split_nodes_delimiter(text_nodes, "**", TextType.BOLD)
+    text_nodes = split_nodes_delimiter(text_nodes, "*", TextType.ITALIC)
+    text_nodes = split_nodes_delimiter(text_nodes, "`", TextType.CODE)
+    text_nodes = split_nodes_image(text_nodes)
+    text_nodes = split_nodes_link(text_nodes)
+    return text_nodes
