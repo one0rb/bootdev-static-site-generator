@@ -23,7 +23,7 @@ class TestHTMLNode(unittest.TestCase):
     def test_repr(self):
         node = HTMLNode("h3", "This is a header", None, {"color": "red"})
         self.assertEqual(
-            "HTMLNode(h3, This is a header, children: None, {'color': 'red'})",
+            "HTMLNode(tag:h3, value:This is a header, children:None, props:{'color': 'red'})",
             repr(node)
         )
 
@@ -92,7 +92,8 @@ class TestLeafNode(unittest.TestCase):
     def test_repr(self):
         node = LeafNode("p", "Hello world!", {"class": "greeting"})
         self.assertEqual(
-            "LeafNode(p, Hello world!, {'class': 'greeting'})", repr(node)
+            "LeafNode(tag:p, value:Hello world!, props:{'class': 'greeting'})",
+            repr(node)
         )
 
 if __name__ == "__main__":
