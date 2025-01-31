@@ -256,6 +256,7 @@ class BlockToHTMLNode(unittest.TestCase):
 
 class MarkdownToHTMLNode(unittest.TestCase):
     def test_function(self):
+        self.maxDiff = None
         markdown = """# Sample Static Site
 
 ## First Heading
@@ -286,11 +287,15 @@ It was:
 
 As a wise woman once told me:
 
-> Things are easy, once you quit!
+> As long as you don't quit, things are easy.
+> ...or...things are easy, once you quit!
 
-### Acknowlegments
+### Acknowledgments
 
-Many thank to [Boots](https://boot.dev), I would never have survived without you!"""
+Many thanks to [Boots](https://boot.dev), I would never have survived without you!"""
         html_node = markdown_to_html_node(markdown)
         html_string = html_node.to_html()
-        print(f'\n{html_node}')
+        self.assertEqual(
+                """<div><h1>Sample Static Site</h1><h2>First Heading</h2><p>This is an example website, let's see if it can manage to do everything that it needs to do. Otherwise, this whole project would've been a bit silly...</p><h2>The worst code</h2><p>Below has been the <b>most annoying</b> bit of code to deal with:</p><pre><code>def __eq__(self, other):\n    if not isinstance(other, HTMLNode):\n        return False\n    return (self.tag == other.tag and\n            self.value == other.value and\n            self.children == other.children and\n            self.props == other.props)</code></pre><p>It was:</p><ol><li>Showing an <code>AssertionError</code> that looked correct!</li><li>Had me and Boots stumped for about an hour!</li><li>There was so much copying and pasting!</li><li>Then I mistyped the adjustments I made afterwards, to cause the error to come up again!</li></ol><p>As a wise woman once told me:</p><blockquote>As long as you don't quit, things are easy.\n...or...things are easy, once you quit!</blockquote><h3>Acknowledgments</h3><p>Many thanks to <a href="https://boot.dev">Boots</a>, I would never have survived without you!</p></div>""",
+                html_string
+        )

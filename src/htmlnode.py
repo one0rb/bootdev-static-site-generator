@@ -39,8 +39,11 @@ class ParentNode(HTMLNode):
         if not self.children:
             raise ValueError("Invalid HTML: no children")
         children_html = ""
-        for child in self.children:
-            children_html += child.to_html()
+        if isinstance(self.children, list):
+            for child in self.children:
+                children_html += child.to_html()
+        else:
+            children_html += self.children.to_html()
         return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
 
     def __repr__(self):
