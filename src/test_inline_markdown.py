@@ -58,6 +58,14 @@ class TestSplitNodesDelimiter(unittest.TestCase):
                 new_nodes
         )
 
+    def test_all_style(self):
+        node = [TextNode('**THIS IS ALL BOLD!**', TextType.NORMAL)]
+        new_nodes = split_nodes_delimiter(node, '**', TextType.BOLD)
+        self.assertEqual(
+                [TextNode('THIS IS ALL BOLD!', TextType.BOLD)],
+                new_nodes
+        )
+
 class TestMarkdownLinksAndImages(unittest.TestCase):
     def test_markdown_images(self):
         text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"

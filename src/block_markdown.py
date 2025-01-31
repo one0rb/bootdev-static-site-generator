@@ -93,9 +93,9 @@ def ulist_to_html_node(block):
     lines = block.splitlines()
     children = []
     for line in lines:
-        if not line.startswith('*') and not line.startswith('-'):
+        if not line.startswith('* ') and not line.startswith('- '):
             raise ValueError('Invalid unordered list!')
-        stripped_line = line.lstrip('*- ')
+        stripped_line = line[2:]
         child = text_to_children(stripped_line)
         children.append(ParentNode('li', child))
     return ParentNode('ul', children)
