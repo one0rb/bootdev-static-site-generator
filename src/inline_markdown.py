@@ -1,5 +1,7 @@
 import re
-from textnode import TextType, TextNode
+
+from textnode import TextNode, TextType
+
 
 def extract_markdown_images(text):
     return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)

@@ -1,5 +1,7 @@
 import os
+
 from block_markdown import markdown_to_html_node
+
 
 def extract_title(md):
     lines = md.split('\n')
@@ -8,6 +10,7 @@ def extract_title(md):
         if line.startswith('# '):
             return line[2:]
     raise ValueError('No title found')
+
 
 def generate_page(frm_path, tpl_path, dst_path):
     print(f'Generating page from {frm_path} to {dst_path} using {tpl_path}')
@@ -23,11 +26,12 @@ def generate_page(frm_path, tpl_path, dst_path):
     title = extract_title(md)
     page = tpl.replace('{{ Title }}', title)
     page = page.replace('{{ Content }}', content)
-    
+
     dst_dir = os.path.dirname(dst_path)
     os.makedirs(dst_dir, exist_ok=True)
     with open(dst_path, mode='w', encoding="utf-8") as f:
         f.write(page)
+
 
 def generate_pages_recursive(src_dir_path, tpl_path, dst_dir_path):
     for file in os.listdir(src_dir_path):

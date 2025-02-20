@@ -13,7 +13,7 @@ class HTMLNode:
         if not self.props:
             return ""
         props_html = ""
-        for key,value in self.props.items():
+        for key, value in self.props.items():
             props_html += f" {key}=\"{value}\""
         return props_html
 
@@ -56,6 +56,7 @@ class ParentNode(HTMLNode):
                 self.children == other.children and
                 self.props == other.props)
 
+
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):
         super().__init__(tag, value, None, props)
@@ -73,6 +74,6 @@ class LeafNode(HTMLNode):
     def __eq__(self, other):
         if not isinstance(other, LeafNode):
             return False
-        return (self.tag == other.tag and 
-                self.value == other.value and 
+        return (self.tag == other.tag and
+                self.value == other.value and
                 self.props == other.props)

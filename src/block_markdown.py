@@ -9,7 +9,6 @@ bt_ulist = 'unordered_list'
 bt_olist = 'ordered_list'
 bt_para = 'paragraph'
 
-
 def markdown_to_blocks(markdown):
     filtered_blocks = []
     blocks = markdown.split('\n\n')
@@ -108,7 +107,6 @@ def olist_to_html_node(block):
         child = text_to_children(stripped_line)
         children.append(ParentNode('li', child))
     return ParentNode('ol', children)
-
 
 def block_to_html_node(block):
     block_type = block_to_block_type(block)

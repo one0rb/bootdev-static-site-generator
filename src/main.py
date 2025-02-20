@@ -1,5 +1,6 @@
 from copy_tree import copy_tree
-from generate_content import generate_page, generate_pages_recursive
+from generate_content import generate_pages_recursive
+
 
 def main():
     copy_tree('static', 'public')

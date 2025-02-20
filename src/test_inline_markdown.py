@@ -1,13 +1,15 @@
 import unittest
+
 from inline_markdown import (
-        split_nodes_delimiter,
-        extract_markdown_images,
-        extract_markdown_links,
-        split_nodes_image,
-        split_nodes_link,
-        text_to_text_node
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_delimiter,
+    split_nodes_image,
+    split_nodes_link,
+    text_to_text_node,
 )
-from textnode import TextType, TextNode
+from textnode import TextNode, TextType
+
 
 class TestSplitNodesDelimiter(unittest.TestCase):
     def test_split_nodes_delimiter(self):

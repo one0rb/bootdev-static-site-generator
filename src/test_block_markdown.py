@@ -1,20 +1,20 @@
 import unittest
+
 from block_markdown import (
-        markdown_to_blocks,
-        block_to_block_type,
-        text_to_children,
-        paragraph_to_html_node,
-        heading_to_html_node,
-        code_to_html_node,
-        quote_to_html_node,
-        ulist_to_html_node,
-        olist_to_html_node,
-        block_to_html_node,
-        markdown_to_html_node
+    block_to_block_type,
+    block_to_html_node,
+    code_to_html_node,
+    heading_to_html_node,
+    markdown_to_blocks,
+    markdown_to_html_node,
+    olist_to_html_node,
+    paragraph_to_html_node,
+    quote_to_html_node,
+    text_to_children,
+    ulist_to_html_node,
 )
-from inline_markdown import text_to_text_node
-from textnode import text_node_to_html_node
-from htmlnode import ParentNode, LeafNode
+from htmlnode import LeafNode, ParentNode
+
 
 class TestMarkdownToBlocks(unittest.TestCase):
     def test_markdown_to_blocks(self):
@@ -122,7 +122,7 @@ class TestTextToChildren(unittest.TestCase):
             text_to_children(text)
         )
 
-    def test_text_to_children(self):
+    def test_text_to_children2(self):
         text = 'This is *improperly* formatted **markdown text.'
         with self.assertRaises(ValueError):
             text_to_children(text)
